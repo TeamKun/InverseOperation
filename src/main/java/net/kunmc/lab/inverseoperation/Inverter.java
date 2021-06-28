@@ -13,6 +13,20 @@ public class Inverter {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent e) {
+        if (minecraft.player == null) {
+            return;
+        }
+
+        if (minecraft.player.isSpectator()) {
+            minecraft.options.sensitivity = originalSensitivity;
+            minecraft.options.keyUp.setKey(InputMappings.getKey(87, 0));
+            minecraft.options.keyDown.setKey(InputMappings.getKey(83, 0));
+            minecraft.options.keyLeft.setKey(InputMappings.getKey(65, 0));
+            minecraft.options.keyRight.setKey(InputMappings.getKey(68, 0));
+            KeyBinding.resetMapping();
+            return;
+        }
+
         if (InverseOperation.activated) {
             minecraft.options.sensitivity = -(originalSensitivity + 0.67);
             minecraft.options.keyUp.setKey(InputMappings.getKey(83, 0));
