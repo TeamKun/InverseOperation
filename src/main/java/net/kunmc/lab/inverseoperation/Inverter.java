@@ -18,12 +18,7 @@ public class Inverter {
         }
 
         if (minecraft.player.isSpectator()) {
-            minecraft.options.sensitivity = originalSensitivity;
-            minecraft.options.keyUp.setKey(InputMappings.getKey(87, 0));
-            minecraft.options.keyDown.setKey(InputMappings.getKey(83, 0));
-            minecraft.options.keyLeft.setKey(InputMappings.getKey(65, 0));
-            minecraft.options.keyRight.setKey(InputMappings.getKey(68, 0));
-            KeyBinding.resetMapping();
+            restore();
             return;
         }
 
@@ -33,14 +28,12 @@ public class Inverter {
             minecraft.options.keyDown.setKey(InputMappings.getKey(87, 0));
             minecraft.options.keyLeft.setKey(InputMappings.getKey(68, 0));
             minecraft.options.keyRight.setKey(InputMappings.getKey(65, 0));
+            minecraft.options.keyAttack.setKey(InputMappings.getKey("key.mouse.right"));
+            minecraft.options.keyUse.setKey(InputMappings.getKey("key.mouse.left"));
+            KeyBinding.resetMapping();
         } else {
-            minecraft.options.sensitivity = originalSensitivity;
-            minecraft.options.keyUp.setKey(InputMappings.getKey(87, 0));
-            minecraft.options.keyDown.setKey(InputMappings.getKey(83, 0));
-            minecraft.options.keyLeft.setKey(InputMappings.getKey(65, 0));
-            minecraft.options.keyRight.setKey(InputMappings.getKey(68, 0));
+            restore();
         }
-        KeyBinding.resetMapping();
     }
 
     @SubscribeEvent
@@ -51,11 +44,17 @@ public class Inverter {
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload e) {
         InverseOperation.activated = false;
+        restore();
+    }
+
+    public void restore() {
         minecraft.options.sensitivity = originalSensitivity;
         minecraft.options.keyUp.setKey(InputMappings.getKey(87, 0));
         minecraft.options.keyDown.setKey(InputMappings.getKey(83, 0));
         minecraft.options.keyLeft.setKey(InputMappings.getKey(65, 0));
         minecraft.options.keyRight.setKey(InputMappings.getKey(68, 0));
+        minecraft.options.keyAttack.setKey(InputMappings.getKey("key.mouse.left"));
+        minecraft.options.keyUse.setKey(InputMappings.getKey("key.mouse.right"));
         KeyBinding.resetMapping();
     }
 }
